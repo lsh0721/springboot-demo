@@ -1,0 +1,32 @@
+server:
+  port: 8080
+##配置随机值 start ##
+my:
+  secret: ${random.value}
+  number: ${random.int}
+  bignumber: ${random.long}
+  uuid: ${random.uuid}
+  less:
+    than:
+      ten: ${random.int(10)}
+  in:
+    range: ${random.int[1024,65536]}
+##配置随机值 end ##
+prefix:
+  listProp:
+    - str1
+    - str2
+## 数据源配置
+spring:
+  datasource:
+    url: jdbc:mysql://10.47.154.229:3306/springbootdemo
+    username: fabu
+    password: 73R4_h8td6fE
+    driver-class-name: com.mysql.jdbc.Driver
+##mybatis配置
+mybatis:
+  type-aliases-package: com.springboot.demo.dmo
+  mapper-locations: classpath:mybatis/mapper/*.xml
+
+
+
