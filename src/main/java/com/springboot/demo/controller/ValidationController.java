@@ -36,6 +36,7 @@ public class ValidationController {
     @RequestMapping("valid.do")
     public String valid(@Valid ValidEntity validEntity) {
         LOGGER.info("-------请求参数-------:{}", validEntity);
+        LOGGER.info("使用lombok插件实现get/set方法:{}",validEntity.getName());
         return "OK";
     }
 

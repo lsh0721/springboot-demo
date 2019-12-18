@@ -35,5 +35,4 @@ public class ValidEntity {
     @NotNull(message = "height 不能为null")
     @Min(value = 0, message = "height 最小值不能小于0")
     private int height;
-
 }
