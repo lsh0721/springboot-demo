@@ -23,10 +23,24 @@ spring:
     username: fabu
     password: 73R4_h8td6fE
     driver-class-name: com.mysql.jdbc.Driver
+##redis配置
+  redis:
+    database:
+       host: 127.0.0.1
+       port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    timeout: 10000
+    ##redis集群
+  ##nodes:
+    ##  - 127.0.0.1:6379
+    ##  - 127.0.0.1:6378
+
 ##mybatis配置
 mybatis:
   type-aliases-package: com.springboot.demo.dmo
   mapper-locations: classpath:mybatis/mapper/*.xml
-
-
-
