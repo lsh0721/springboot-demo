@@ -11,6 +11,7 @@ package com.springboot.demo.controller;
 
 import com.springboot.demo.dmo.CityInfo;
 import com.springboot.demo.service.CityInfoService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +24,15 @@ import java.util.List;
  * 〈一句话功能简述〉
  * 〈〉
  *
- * @AUTHOR  lishihui
+ * @AUTHOR lishihui
  * @DATE 2019/12/17 17:54
  * @SEE [相关类/方法]（可选）
  * @SINCE [产品/模块版本] （可选）
  */
 @RestController
 @RequestMapping("/city")
+@Slf4j
 public class CityInfoController {
-
-    private Logger LOGGER = LoggerFactory.getLogger(CityInfoController.class);
 
     @Autowired
     private CityInfoService cityInfoService;
@@ -40,12 +40,17 @@ public class CityInfoController {
     @RequestMapping("/cityList.do")
     public List<CityInfo> getCityList() {
         List<CityInfo> cityInfoList = cityInfoService.getCityList();
-        LOGGER.info("查询城市列表:{}", cityInfoList);
+        log.info("查询城市列表:{}", cityInfoList);
         return cityInfoList;
     }
 
     @RequestMapping("/getCityById.do")
-    public CityInfo getCityList(String id) {
+    public CityInfo getCityById(String id) {
+        return cityInfoService.getCityById(Long.parseLong(id));
+    }
+
+    @RequestMapping("/getCityById.htm")
+    public CityInfo getCityByIdForHtm(String id) {
         return cityInfoService.getCityById(Long.parseLong(id));
     }
 
