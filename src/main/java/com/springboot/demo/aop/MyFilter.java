@@ -30,7 +30,7 @@ public class MyFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        log.info("-------------CityFilter.init-------------");
+        log.info("-------------MyFilter.init-------------");
     }
 
     /**
@@ -53,6 +53,6 @@ public class MyFilter implements Filter {
 
     @Override
     public void destroy() {
-        log.info("-------------CityFilter.init-------------");
+        log.info("-------------MyFilter.init-------------");
     }
 }

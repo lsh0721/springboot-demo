@@ -54,6 +54,11 @@ public class CityInfoController {
         return cityInfoService.getCityById(Long.parseLong(id));
     }
 
+    @RequestMapping("/getCityById.json")
+    public CityInfo getCityByIdForJson(String id) {
+        return cityInfoService.getCityById(Long.parseLong(id));
+    }
+
     @RequestMapping("/getCityByName.do")
     public CityInfo getCityByName(String name) {
         return cityInfoService.getCityByName(name);
