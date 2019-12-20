@@ -11,6 +11,7 @@ package com.springboot.demo.controller;
 
 import com.springboot.demo.dmo.CityInfo;
 import com.springboot.demo.service.CityInfoService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/city")
 @Slf4j
+@Api(tags = "城市服务接口")
 public class CityInfoController {
 
     @Autowired

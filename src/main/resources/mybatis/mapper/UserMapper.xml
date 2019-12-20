@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.demo.dmo.User">
+    <resultMap id="BaseResultMap" type="com.springboot.demo.dmo.User">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_name, address
+    </sql>
+
+    <!--保存用户-->
+    <insert id="saveUser" parameterType="com.springboot.demo.dmo.User">
+        insert into user_info(user_name,address) values (#{userName,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR})
+    </insert>
+    <!--查询所有用户-->
+    <select id="getAllUserForList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info
+    </select>
+
+    <!--更新用户-->
+    <update id="updateUserInfo">
+        update user_info set address =  #{address,jdbcType=VARCHAR}
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </update>
+
+    <!--更新用户-->
+    <select id="getUserByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+
+    <!--删除用户-->
+    <delete id="deleteUserByName">
+        delete
+        from user_info
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </delete>
+</mapper>
