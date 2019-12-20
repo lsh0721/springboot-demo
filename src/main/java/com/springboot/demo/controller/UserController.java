@@ -49,7 +49,7 @@ public class UserController {
      * @param address
      * @return
      */
-    @RequestMapping(value = "/save.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/save.do", method = RequestMethod.POST)
     @ApiOperation("保存用户")
     @ApiImplicitParams({@ApiImplicitParam(name = "userName", value = "姓名", defaultValue = "孙悟空", required = true),
             @ApiImplicitParam(name = "address", value = "地址", defaultValue = "花果山", required = true)})
@@ -72,11 +72,11 @@ public class UserController {
     }
 
     /**
-     * 传用户列表
+     * 查询用户列表
      *
      * @return
      */
-    @RequestMapping(value = "/list.do")
+    @RequestMapping(value = "/list.do", method = RequestMethod.GET)
     @ApiOperation("查询用户列表")
     public List<User> listForAllUser() {
         return userInfoService.list();
@@ -89,7 +89,7 @@ public class UserController {
      * @param address
      * @return
      */
-    @RequestMapping(value = "/update.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/update.do", method = RequestMethod.POST)
     @ApiOperation("更新用户")
     @ApiImplicitParams({@ApiImplicitParam(name = "userName", value = "姓名", defaultValue = "孙悟空", required = true),
             @ApiImplicitParam(name = "address", value = "地址", defaultValue = "花果山", required = true)})
@@ -129,7 +129,7 @@ public class UserController {
      * @param userName
      * @return success:删除成功 否则删除失败
      */
-    @RequestMapping(value = "/delete.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete.do", method = RequestMethod.DELETE)
     @ApiOperation("删除用户")
     @ApiImplicitParam(name = "userName", value = "姓名", defaultValue = "孙悟空", required = true)
     public String deleteUserByName(String userName) {
