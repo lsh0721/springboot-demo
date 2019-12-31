@@ -12,7 +12,6 @@ package com.springboot.demo.util;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import lombok.extern.slf4j.Slf4j;
@@ -60,22 +59,51 @@ public class QRCodeUtil {
         }
     };
 
+/*
     public static void main(String[] args) throws Exception {
         //生成二维码
-        qrCodeGenerate("http://wxpay.83609.com/login.html");
+        generateGRCode2Local("http://wxpay.83609.com/login.html");
     }
+*/
 
     /**
-     * 生成二维码
+     * 生成二维码到本地路径
      *
      * @param text
      */
-    public static void qrCodeGenerate(String text) {
+    public static void generateGRCode2Local(String text) {
         try {
-            //1、生成二维码
+            //生成二维码图片缓冲流
+            BufferedImage image = generateGrCodeForBuffered(text);
+            //保存二维码到本地
+            File outPutImage = new File(qrCodePath);
+            //如果图片不存在创建图片  
+            if (!outPutImage.exists()) {
+                outPutImage.createNewFile();
+            }
+            //将二维码写入图片  
+            image.flush();
+            ImageIO.write(image, imageType, outPutImage);
+        } catch (Exception e) {
+            log.info("保存二维码图片失败:{}", e);
+        }
+        log.info("二维码生成完毕");
+    }
+
+    /**
+     * 生成二维码图片缓冲流
+     *
+     * @param text
+     * @return
+     */
+    public static BufferedImage generateGrCodeForBuffered(String text) {
+        //图片缓冲流
+        BufferedImage image = null;
+        try {
+            //生成二维码
             BitMatrix encode = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height, hints);
-            //3、将二维码放入缓冲流
-            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            //将二维码放入缓冲流
+            image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {
                     //4、循环将二维码内容定入图片  
@@ -85,7 +113,7 @@ public class QRCodeUtil {
             int imageWidth = image.getWidth();
             int imageHeight = image.getHeight();
 
-            //5、绘制logo图片
+            //绘制logo图片
             File logoFile = new File(QRCodeUtil.class.getClassLoader().getResource(logoImagePath).getPath());
             if (Objects.nonNull(logoFile) && logoFile.exists()) {
                 // 构建绘图对象
@@ -97,20 +125,9 @@ public class QRCodeUtil {
                 g.dispose();
                 logo.flush();
             }
-
-            File outPutImage = new File(qrCodePath);
-            //如果图片不存在创建图片  
-            if (!outPutImage.exists()) {
-                outPutImage.createNewFile();
-            }
-            //6、将二维码写入图片  
-            image.flush();
-            ImageIO.write(image, imageType, outPutImage);
         } catch (Exception e) {
             log.info("二维码生成失败:{}", e);
         }
-        log.info("二维码生成完毕");
-
+        return image;
     }
-
 }

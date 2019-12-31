@@ -9,22 +9,14 @@
  */
 package com.springboot.demo.controller;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.springboot.demo.util.QRCodeUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
 /**
  * 〈一句话功能简述〉
@@ -36,24 +28,24 @@ import java.util.Map;
  * @SINCE [产品/模块版本] （可选）
  */
 @Controller
+@Slf4j
 public class QrController {
 
-    @GetMapping("/qrCode.do")
-    public void get(HttpServletResponse response) throws Exception {
-        //默认二维码大小
-        int width = 200;
-        int height = 200;
-        //默认二维码图片格式
-        String format = "png";
-        String content = "http://www.weixin.com";
-        ServletOutputStream out = response.getOutputStream();
-        Map<EncodeHintType, Object> config = new HashMap<>();
-        config.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-        config.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
-        config.put(EncodeHintType.MARGIN, 0);
-        BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, config);
-        MatrixToImageWriter.writeToStream(bitMatrix, format, out);
-        System.out.println("二维码生成完毕，已经输出到页面中。");
+    /**
+     * 根据内容获取二维码图片
+     *
+     * @param response
+     * @param content  二维码内容
+     */
+    @GetMapping("/getGrCode.do")
+    public void getGrCode(HttpServletResponse response, String content) {
+        try {
+            log.info("生成二维码,content:{}", content);
+            ImageIO.write(QRCodeUtil.generateGrCodeForBuffered(content), "png", response.getOutputStream());
+        } catch (IOException e) {
+            log.info("输出二维码到页面异常:{}", e);
+        }
+
     }
 
 }
