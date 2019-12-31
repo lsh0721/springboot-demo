@@ -99,6 +99,7 @@ public class UserController {
         User user = new User();
         user.setUserName(userName);
         user.setAddress(address);
+        
         try {
             userInfoService.update(user);
         } catch (Exception e) {
