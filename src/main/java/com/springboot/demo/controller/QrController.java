@@ -72,7 +72,6 @@ public class QrController {
         String requestUrl = tempContextUrl + "/index";
         try {
             OutputStream os = response.getOutputStream();
-//            QrCodeUtils.encode(requestUrl, "/static/images/logo.png", os, true);
         } catch (Exception e) {
             e.printStackTrace();
         }

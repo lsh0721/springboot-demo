@@ -9,10 +9,11 @@
  */
 package com.springboot.demo.util;
 
-import com.google.zxing.*;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
@@ -38,8 +39,15 @@ public class QRCodeUtil {
     //二维码颜色
     private static final int BLACK = 0xFF000000;
     private static final int WHITE = 0xFFFFFFFF;
-    private static int width = 300;
-    private static int height = 300;
+    //二维码尺寸
+    private static final int width = 300;
+    private static final int height = 300;
+    //默认图片格式
+    private static final String imageType = "png";
+
+    //默认二维码logo图片相对路径 和保存二维码的路径
+    private static final String logoImagePath = "static/images/logo_weixin.png";
+
 
     // 用于设置QR二维码参数
     private static Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>() {
@@ -54,8 +62,8 @@ public class QRCodeUtil {
     };
 
     public static void main(String[] args) throws Exception {
-        File logoFile = new File("F:\\logo_weixin.png");
-        zxingCodeCreate("http://www.suning.com", "D:/qrcode.png", "png", logoFile);
+
+        qrCodeGenerate("http://wxpay.83609.com/login.html", "D:/qrcode.png");
         //    zxingCodeAnalyze("D:/qrcode.jpg");
     }
 
@@ -64,9 +72,8 @@ public class QRCodeUtil {
      *
      * @param text
      * @param outPutPath
-     * @param imageType
      */
-    public static void zxingCodeCreate(String text, String outPutPath, String imageType, File logoFile) {
+    public static void qrCodeGenerate(String text, String outPutPath) {
         try {
             //1、生成二维码
             BitMatrix encode = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height, hints);
@@ -82,6 +89,7 @@ public class QRCodeUtil {
             int imageHeight = image.getHeight();
 
             //5、绘制logo图片
+            File logoFile = new File(QRCodeUtil.class.getClassLoader().getResource(logoImagePath).getPath());
             if (Objects.nonNull(logoFile) && logoFile.exists()) {
                 // 构建绘图对象
                 Graphics2D g = image.createGraphics();
@@ -115,7 +123,7 @@ public class QRCodeUtil {
      * @return
      * @throws Exception
      */
-    public static String zxingCodeAnalyze(String analyzePath) throws Exception {
+    public static String parseQrCode(String analyzePath) throws Exception {
         return "";
     }
 }
