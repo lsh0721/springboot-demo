@@ -12,6 +12,7 @@ package com.springboot.demo.util;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import lombok.extern.slf4j.Slf4j;
@@ -44,15 +45,13 @@ public class QRCodeUtil {
     private static final int height = 300;
     //默认图片格式
     private static final String imageType = "png";
-
-    //默认二维码logo图片相对路径 和保存二维码的路径
+    //默认二维码logo图片相对路径
     private static final String logoImagePath = "static/images/logo_weixin.png";
-
+    //保存二维码图片路径
+    private static final String qrCodePath = "D:/qrcode.png";
 
     // 用于设置QR二维码参数
     private static Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>() {
-        private static final long serialVersionUID = 1L;
-
         {
             // 设置QR二维码的纠错级别（H为最高级别）具体级别信息
             put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
@@ -62,18 +61,16 @@ public class QRCodeUtil {
     };
 
     public static void main(String[] args) throws Exception {
-
-        qrCodeGenerate("http://wxpay.83609.com/login.html", "D:/qrcode.png");
-        //    zxingCodeAnalyze("D:/qrcode.jpg");
+        //生成二维码
+        qrCodeGenerate("http://wxpay.83609.com/login.html");
     }
 
     /**
      * 生成二维码
      *
      * @param text
-     * @param outPutPath
      */
-    public static void qrCodeGenerate(String text, String outPutPath) {
+    public static void qrCodeGenerate(String text) {
         try {
             //1、生成二维码
             BitMatrix encode = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height, hints);
@@ -101,7 +98,7 @@ public class QRCodeUtil {
                 logo.flush();
             }
 
-            File outPutImage = new File(outPutPath);
+            File outPutImage = new File(qrCodePath);
             //如果图片不存在创建图片  
             if (!outPutImage.exists()) {
                 outPutImage.createNewFile();
@@ -113,17 +110,7 @@ public class QRCodeUtil {
             log.info("二维码生成失败:{}", e);
         }
         log.info("二维码生成完毕");
+
     }
 
-
-    /**
-     * 解析二维码
-     *
-     * @param analyzePath
-     * @return
-     * @throws Exception
-     */
-    public static String parseQrCode(String analyzePath) throws Exception {
-        return "";
-    }
 }

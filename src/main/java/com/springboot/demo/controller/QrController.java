@@ -56,24 +56,4 @@ public class QrController {
         System.out.println("二维码生成完毕，已经输出到页面中。");
     }
 
-    /**
-     * 二维码
-     *
-     * @param request
-     * @param response
-     */
-    @RequestMapping("/qrcode2.do")
-    public void qrcode(HttpServletRequest request, HttpServletResponse response) {
-        StringBuffer url = request.getRequestURL();
-        // 域名
-        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append("/").toString();
-
-        // 再加上请求链接
-        String requestUrl = tempContextUrl + "/index";
-        try {
-            OutputStream os = response.getOutputStream();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
